@@ -1,0 +1,65 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "workspaceName": {
+      "type": "String",
+      "metadata": {
+        "description": "Specifies the name of the Azure Machine Learning Workspace which will contain this compute."
+      }
+    },
+    "datastoreName": {
+      "type": "String",
+      "metadata": {
+        "description": "Specifies the name of the Azure Machine Learning datastore which will contain this model."
+      }
+    },
+    "modelName": {
+      "defaultValue": "testModel",
+      "type": "String",
+      "metadata": {
+        "description": "Specifies the name of the Azure Machine Learning model which will be created or updated."
+      }
+    },
+    "modelContainerName": {
+      "type": "String",
+      "metadata": {
+        "description": "Specifies the name of the Azure Machine Learning model container which will contain this model."
+      }
+    },
+    "modelDescription": {
+      "defaultValue": "This is a test description for a model version",
+      "type": "String"
+    },
+    "modelPathInDatastore": {
+      "type": "String",
+      "metadata": {
+        "description": "Specifies the path of the model in the specified Azure Machine Learning datastore."
+      }
+    },
+    "modelVersionProperties": {
+      "defaultValue": {
+        "datastoreId": "[variables('datastoreResourceId')]",
+        "flavors": {},
+        "isAnonymous": false,
+        "path": "[parameters('modelPathInDatastore')]",
+        "description": "[parameters('modelDescription')]",
+        "properties": {},
+        "tags": {}
+      },
+      "type": "Object"
+    }
+  },
+  "variables": {
+    "workspaceResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces', parameters('workspaceName'))]",
+    "datastoreResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/datastores', parameters('workspaceName'), parameters('datastoreName'))]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.MachineLearningServices/workspaces/models/versions",
+      "apiVersion": "2021-03-01-preview",
+      "name": "[concat(parameters('workspaceName'), '/', parameters('modelContainerName'), '/', parameters('modelName'))]",
+      "properties": "[parameters('modelVersionProperties')]"
+    }
+  ]
+}
