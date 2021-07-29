@@ -1,0 +1,33 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "workspaceName": {
+      "type": "String"
+    },
+    "environmentContainerName": {
+      "defaultValue": "testEnvironmentContainerName",
+      "type": "String"
+    },
+    "environmentContainerDescription": {
+      "defaultValue": "This is a test description for an environment container created from an ARM template",
+      "type": "String"
+    },
+    "environmentContainerProperties": {
+      "defaultValue": {
+        "description": "[parameters('environmentContainerDescription')]",
+        "properties": {},
+        "tags": {}
+      },
+      "type": "Object"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.MachineLearningServices/workspaces/environments",
+      "apiVersion": "2021-03-01-preview",
+      "name": "[concat(parameters('workspaceName'), '/', parameters('environmentContainerName'))]",
+      "properties": "[parameters('environmentContainerProperties')]"
+    }
+  ]
+}

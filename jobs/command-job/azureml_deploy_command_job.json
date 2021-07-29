@@ -1,0 +1,116 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "workspaceName": {
+      "type": "String",
+      "metadata": {
+        "description": "Specifies the name of the Azure Machine Learning Workspace which will contain this job."
+      }
+    },
+    "jobName": {
+      "defaultValue": "testCommandJob",
+      "type": "String"
+    },
+    "commandJobDescription": {
+      "defaultValue": "A command job created by an ARM template",
+      "type": "String"
+    },
+    "command": {
+      "defaultValue": "python train.py",
+      "type": "String"
+    },
+    "codeAssetName": {
+      "type": "String"
+    },
+    "codeAssetVersion": {
+      "defaultValue": "1",
+      "type": "String"
+    },
+    "dataAssetName": {
+      "type": "String"
+    },
+    "dataAssetVersion": {
+      "defaultValue": "1",
+      "type": "String"
+    },
+    "computeName": {
+      "type": "String"
+    },
+    "computeInstanceCount": {
+      "defaultValue": 3,
+      "type": "Int"
+    },
+    "computeInstanceType": {
+      "type": "String"
+    },
+    "computeIsLocal": {
+      "type": "Bool"
+    },
+    "computeLocation": {
+      "type": "String"
+    },
+    "dataAssetPathOnCompute": {
+      "defaultValue": "testData",
+      "type": "String"
+    },
+    "environmentName": {
+      "type": "String"
+    },
+    "environmentVersion": {
+      "defaultValue": "1",
+      "type": "String"
+    },
+    "experimentName": {
+      "defaultValue": "testExperimentName",
+      "type": "String"
+    },
+    "identityType": {
+      "defaultValue": "AMLToken",
+      "type": "String"
+    },
+    "commandJobProperties": {
+      "defaultValue": {
+        "description": "[parameters('commandJobDescription')]",
+        "properties": {},
+        "tags": {},
+        "jobType": "Command",
+        "codeId": "[variables('codeVersionResourceId')]",
+        "command": "[parameters('command')]",
+        "compute": {
+          "instanceCount": "[parameters('computeInstanceCount')]",
+          "instanceType": "[parameters('computeinstanceType')]",
+          "isLocal": "[parameters('computeisLocal')]",
+          "location": "[parameters('computeLocation')]",
+          "properties": {},
+          "target": "[variables('computeResourceId')]"
+        },
+        "distribution": {},
+        "environmentId": "[variables('environmentResourceId')]",
+        "environmentVariables": {},
+        "experimentName": "[parameters('experimentName')]",
+        "identityType": "[parameters('identityType')]",
+        "inputDataBindings": {
+          "dataId": "[variables('dataVersionResourceId')]",
+          "pathOnCompute": "[parameters('dataAssetPathOnCompute')]"
+        },
+        "outputDataBindings": {}
+      },
+      "type": "Object"
+    }
+  },
+  "variables": {
+    "codeVersionResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/codes/versions', parameters('workspaceName'), parameters('codeAssetName'), parameters('codeAssetVersion'))]",
+    "environmentResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/environments/versions', parameters('workspaceName'), parameters('environmentName'), parameters('environmentVersion'))]",
+    "computeResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/computes', parameters('workspaceName'), parameters('computeName'))]",
+    "dataVersionResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/data/versions', parameters('workspaceName'), parameters('dataAssetName'), parameters('dataAssetVersion'))]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.MachineLearningServices/workspaces/jobs",
+      "apiVersion": "2021-03-01-preview",
+      "name": "[concat(parameters('workspaceName'), '/', parameters('jobName'))]",
+      "properties": "[parameters('commandJobProperties')]"
+    }
+  ]
+}
