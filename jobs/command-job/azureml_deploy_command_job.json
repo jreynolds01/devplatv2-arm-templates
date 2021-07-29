@@ -79,8 +79,8 @@
         "command": "[parameters('command')]",
         "compute": {
           "instanceCount": "[parameters('computeInstanceCount')]",
-          "instanceType": "[parameters('computeinstanceType')]",
-          "isLocal": "[parameters('computeisLocal')]",
+          "instanceType": "[parameters('computeInstanceType')]",
+          "isLocal": "[parameters('computeIsLocal')]",
           "location": "[parameters('computeLocation')]",
           "properties": {},
           "target": "[variables('computeResourceId')]"
@@ -114,3 +114,16 @@
     }
   ]
 }
+© 2021 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
+Loading complete
