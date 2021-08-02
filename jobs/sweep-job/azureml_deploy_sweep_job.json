@@ -10,7 +10,10 @@
     },
     "jobName": {
       "defaultValue": "testSweepJob",
-      "type": "String"
+      "type": "String",
+      "metadata": {
+        "description": "Specifies the name of the Azure Machine Learning sweep job."
+      }
     },
     "sweepJobDescription": {
       "defaultValue": "A sweep job created by an ARM template",
@@ -18,7 +21,10 @@
     },
     "command": {
       "defaultValue": "python train.py",
-      "type": "String"
+      "type": "String",
+      "metadata": {
+        "description": "Specifies the name of the Azure Machine Learning sweep job."
+      }
     },
     "codeAssetName": {
       "type": "String"
@@ -45,13 +51,13 @@
       "type": "String"
     },
     "computeIsLocal": {
-      "type": "Bool"
+      "type": "bool"
     },
     "computeLocation": {
       "type": "String"
     },
     "dataAssetPathOnCompute": {
-      "defaultValue": "testData",
+      "defaultValue": "dataAsset/path/in/datastore",
       "type": "String"
     },
     "environmentName": {
@@ -67,10 +73,11 @@
     },
     "identityType": {
       "defaultValue": "AMLToken",
-      "type": "String"
+      "type": "object"
     },
     "priority": {
-      "type": "int"
+      "type": "int",
+      "defaultValue": 1
     },
     "timeout": {
       "type": "string",
@@ -78,7 +85,6 @@
     },
     "algorithm": {
       "type": "string",
-      "defaultValue": "Random",
       "allowedValues": [
         "Grid",
         "Random",
@@ -113,10 +119,20 @@
       "metadata": {
         "description": "A dictionary containing each parameter and its distribution. The dictionary key is the name of the parameter"
       }
-    },
-    "sweepJobProperties": {
-      "type": "Object",
-      "defaultValue": {
+    }
+  },
+  "variables": {
+    "codeVersionResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/codes/versions', parameters('workspaceName'), parameters('codeAssetName'), parameters('codeAssetVersion'))]",
+    "environmentResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/environments/versions', parameters('workspaceName'), parameters('environmentName'), parameters('environmentVersion'))]",
+    "computeResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/computes', parameters('workspaceName'), parameters('computeName'))]",
+    "dataVersionResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/data/versions', parameters('workspaceName'), parameters('dataAssetName'), parameters('dataAssetVersion'))]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.MachineLearningServices/workspaces/jobs",
+      "apiVersion": "2021-03-01-preview",
+      "name": "[concat(parameters('workspaceName'), '/', parameters('jobName'))]",
+      "properties": {
         "description": "[parameters('sweepJobDescription')]",
         "properties": {},
         "tags": {},
@@ -156,20 +172,6 @@
           "timeout": "[parameters('timeout')]"
         }
       }
-    }
-  },
-  "variables": {
-    "codeVersionResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/codes/versions', parameters('workspaceName'), parameters('codeAssetName'), parameters('codeAssetVersion'))]",
-    "environmentResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/environments/versions', parameters('workspaceName'), parameters('environmentName'), parameters('environmentVersion'))]",
-    "computeResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/computes', parameters('workspaceName'), parameters('computeName'))]",
-    "dataVersionResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/data/versions', parameters('workspaceName'), parameters('dataAssetName'), parameters('dataAssetVersion'))]"
-  },
-  "resources": [
-    {
-      "type": "Microsoft.MachineLearningServices/workspaces/jobs",
-      "apiVersion": "2021-03-01-preview",
-      "name": "[concat(parameters('workspaceName'), '/', parameters('jobName'))]",
-      "properties": "[parameters('sweepJobProperties')]"
     }
   ]
 }

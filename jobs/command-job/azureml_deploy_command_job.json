@@ -18,8 +18,10 @@
     },
     "command": {
       "defaultValue": "python train.py",
-      "type": "String"
-    },
+      "type": "String",
+      "metadata": {
+        "description": "The command to execute on startup of the job. eg. 'python train.py'"
+      },
     "codeAssetName": {
       "type": "String"
     },
@@ -61,16 +63,30 @@
       "defaultValue": "1",
       "type": "String"
     },
-    "experimentName": {
-      "defaultValue": "testExperimentName",
-      "type": "String"
-    },
+      "experimentName": {
+        "defaultValue": "testExperimentName",
+        "type": "String",
+        "metadata": {
+          "description": "The name of the experiment the job belongs to. If not set, the job is placed in the 'Default' experiment."
+        }
+     },
     "identityType": {
       "defaultValue": "AMLToken",
       "type": "String"
-    },
-    "commandJobProperties": {
-      "defaultValue": {
+    }
+  },
+  "variables": {
+    "codeVersionResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/codes/versions', parameters('workspaceName'), parameters('codeAssetName'), parameters('codeAssetVersion'))]",
+    "environmentResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/environments/versions', parameters('workspaceName'), parameters('environmentName'), parameters('environmentVersion'))]",
+    "computeResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/computes', parameters('workspaceName'), parameters('computeName'))]",
+    "dataVersionResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/data/versions', parameters('workspaceName'), parameters('dataAssetName'), parameters('dataAssetVersion'))]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.MachineLearningServices/workspaces/jobs",
+      "apiVersion": "2021-03-01-preview",
+      "name": "[concat(parameters('workspaceName'), '/', parameters('jobName'))]",
+      "properties": {
         "description": "[parameters('commandJobDescription')]",
         "properties": {},
         "tags": {},
@@ -94,23 +110,10 @@
           "dataId": "[variables('dataVersionResourceId')]",
           "pathOnCompute": "[parameters('dataAssetPathOnCompute')]"
         },
-        "outputDataBindings": {}
-      },
-      "type": "Object"
-    }
-  },
-  "variables": {
-    "codeVersionResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/codes/versions', parameters('workspaceName'), parameters('codeAssetName'), parameters('codeAssetVersion'))]",
-    "environmentResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/environments/versions', parameters('workspaceName'), parameters('environmentName'), parameters('environmentVersion'))]",
-    "computeResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/computes', parameters('workspaceName'), parameters('computeName'))]",
-    "dataVersionResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/data/versions', parameters('workspaceName'), parameters('dataAssetName'), parameters('dataAssetVersion'))]"
-  },
-  "resources": [
-    {
-      "type": "Microsoft.MachineLearningServices/workspaces/jobs",
-      "apiVersion": "2021-03-01-preview",
-      "name": "[concat(parameters('workspaceName'), '/', parameters('jobName'))]",
-      "properties": "[parameters('commandJobProperties')]"
+        "outputDataBindings": {},
+        "priority": "int",
+        "timeout": "string"
+      }
     }
   ]
 }
