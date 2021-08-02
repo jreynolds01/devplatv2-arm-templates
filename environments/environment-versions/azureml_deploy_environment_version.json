@@ -1,0 +1,105 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "workspaceName": {
+      "type": "String"
+    },
+    "environmentContainerName": {
+      "type": "String"
+    },
+    "environmentVersion": {
+      "defaultValue": "1",
+      "type": "String"
+    },
+    "environmentDescription": {
+      "defaultValue": "This is a test description for an environment container created from an ARM template",
+      "type": "String"
+    },
+    "condaFile": {
+      "type": "String",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Standard configuration file used by Conda that lets you install any kind of package, including Python, R, and C/C++ packages."
+      }
+    },
+    "isAnonymous": {
+      "type": "bool",
+      "defaultValue": true
+    },
+    "dockerOperatingSystemType": {
+      "type": "String",
+      "allowedValues": [
+        "Linux",
+        "Windows",
+        ""
+      ],
+      "defaultValue": ""
+    },
+    "dockerSpecificationType": {
+      "type": "String",
+      "allowedValues": [
+        "Build",
+        "Image"
+      ]
+    },
+    "dockerContext": {
+      "type": "String",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Path to a snapshot of the Docker Context. This property is only valid if Dockerfile is specified. The path is relative to the asset path which must contain a single Blob URI value."
+      }
+    },
+    "dockerfile": {
+      "type": "String",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Docker command line instructions to assemble an image."
+      }
+    },
+    "dockerImageUri": {
+      "type": "String",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Image name of a custom base image."
+      }
+    }
+  },
+  "resources": [
+    {
+      "name": "[concat(parameters('workspaceName'), '/', parameters('environmentContainerName'), '/', parameters('environmentVersion'))]",
+      "type": "Microsoft.MachineLearningServices/workspaces/environments/versions",
+      "apiVersion": "2021-03-01-preview",
+      "properties": {
+        "condaFile": "[parameters('condaFile')]",
+        "description": "[parameters('environmentContainerDescription')]",
+        "docker": {
+          "context": "[parameters('dockerContext')]",
+          "dockerfile": "[parameters('dockerfile')]",
+          "dockerImageUri": "[parameters('dockerImageUri')]",
+          "dockerSpecificationType": "[parameters('dockerSpecificationType')]",
+          "platform": {
+            "operatingSystemType": "[parameters('dockerOperatingSystemType')]"
+          }
+        },
+        // "inferenceContainerProperties": {
+        // 	"livenessRoute": {
+        // 		"path": "string",
+        // 		"port": "integer"
+        // 	},
+        // 	"readinessRoute": {
+        // 		"path": "string",
+        // 		"port": "integer"
+        // 	},
+        // 	"scoringRoute": {
+        // 		"path": "string",
+        // 		"port": "integer"
+        // 	}
+        // },
+        "isAnonymous": "[parameters('isAnonymous')]",
+        "properties": {},
+        "tags": {}
+      }
+    }
+  ]
+}

@@ -5,22 +5,22 @@
     "workspaceName": {
       "type": "String"
     },
-    "environmentContainerName": {
+    "dataContainerName": {
       "defaultValue": "testEnvironmentContainerName",
       "type": "String"
     },
-    "environmentContainerDescription": {
+    "dataContainerDescription": {
       "defaultValue": "This is a test description for an environment container created from an ARM template",
       "type": "String"
     }
   },
   "resources": [
     {
-      "type": "Microsoft.MachineLearningServices/workspaces/environments",
+      "type": "Microsoft.MachineLearningServices/workspaces/data",
       "apiVersion": "2021-03-01-preview",
-      "name": "[concat(parameters('workspaceName'), '/', parameters('environmentContainerName'))]",
+      "name": "[concat(parameters('workspaceName'), '/', parameters('dataContainerName'))]",
       "properties": {
-        "description": "[parameters('environmentContainerDescription')]",
+        "description": "[parameters('dataContainerDescription')]",
         "properties": {},
         "tags": {}
       }

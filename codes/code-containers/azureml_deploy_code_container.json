@@ -1,0 +1,32 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"workspaceName": {
+			"type": "String"
+		},
+		"codeContainerName": {
+			"defaultValue": "testCodeContainerName",
+			"type": "String"
+		},
+		"codeContainerDescription": {
+			"defaultValue": "This is a test description for a code container created by an ARM template",
+			"type": "String"
+		}
+	},
+	"variables": {
+		"workspaceResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces', parameters('workspaceName'))]"
+	},
+	"resources": [
+		{
+			"type": "Microsoft.MachineLearningServices/workspaces/codes",
+			"name": "[concat(parameters('workspaceName'), '/', parameters('codeContainerName'))]",
+			"apiVersion": "2021-03-01-preview",
+			"properties": {
+				"description": "[parameters('codeContainerDescription')]",
+				"properties": {},
+				"tags": {}
+			}
+		}
+	]
+}

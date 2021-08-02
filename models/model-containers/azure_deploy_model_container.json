@@ -12,14 +12,6 @@
     "modelContainerDescription": {
       "defaultValue": "This is a test description for a model container",
       "type": "String"
-    },
-    "modelContainerProperties": {
-      "defaultValue": {
-        "description": "[parameters('modelContainerDescription')]",
-        "properties": {},
-        "tags": {}
-      },
-      "type": "Object"
     }
   },
   "variables": {
@@ -30,7 +22,11 @@
       "type": "Microsoft.MachineLearningServices/workspaces/models",
       "apiVersion": "2021-03-01-preview",
       "name": "[concat(parameters('workspaceName'), '/', parameters('modelContainerName'))]",
-      "properties": "[parameters('modelContainerProperties')]"
+      "properties": {
+        "description": "[parameters('modelContainerDescription')]",
+        "properties": {},
+        "tags": {}
+      }
     }
   ]
 }
