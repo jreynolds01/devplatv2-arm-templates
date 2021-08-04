@@ -148,7 +148,7 @@
         "priority": "[parameters('priority')]",
         "timeout": "[parameters('timeout')]",
         "algorithm": "[parameters('algorithm')]",
-        "earlyTermination": {},
+        // "earlyTermination": {},
         "experimentName": "[parameters('experimentName')]",
         "identity": "[parameters('identityType')]",
         "maxConcurrentTrials": "[parameters('maxConcurrentTrials')]",
@@ -161,7 +161,7 @@
         "trial": {
           "codeId": "[variables('codeVersionResourceId')]",
           "command": "[parameters('command')]",
-          "distribution": {},
+          // "distribution": {},
           "environmentId": "[variables('environmentResourceId')]",
           "environmentVariables": {},
           "inputDataBindings": {

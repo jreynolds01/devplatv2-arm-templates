@@ -6,11 +6,11 @@
       "type": "String"
     },
     "dataContainerName": {
-      "defaultValue": "testEnvironmentContainerName",
+      "defaultValue": "testDataContainerName",
       "type": "String"
     },
     "dataContainerDescription": {
-      "defaultValue": "This is a test description for an environment container created from an ARM template",
+      "defaultValue": "This is a test description for an data container created from an ARM template",
       "type": "String"
     }
   },

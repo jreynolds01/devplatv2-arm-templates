@@ -11,7 +11,7 @@
     },
     "batchDeploymentDescription": {
       "type": "String",
-      "defaultValue": ""
+      "defaultValue": "This is a batch deployment created by an ARM template"
     },
     "datastoreName": {
       "type": "String",
@@ -93,7 +93,7 @@
       }
     },
     "errorThreshold": {
-      "type": "integer",
+      "type": "int",
       "metadata": {
         "description": "If the error count for the entire input goes above this value, the batch inference will be aborted. Range is [-1, int.MaxValue]. For FileDataset, this value is the count of file failures. For TabularDataset, this value is the count of record failures. If set to -1 (the lower bound), all failures during batch inference will be ignored."
       }
@@ -110,7 +110,8 @@
       }
     },
     "miniBatchSize": {
-      "type": "integer",
+      "type": "int",
+      "defaultValue": 1,
       "metadata": {
         "description": "Size of the mini-batch passed to each batch invocation. For FileDataset, this is the number of files per mini-batch. For TabularDataset, this is the size of the records in bytes, per mini-batch."
       }
@@ -152,7 +153,6 @@
         "description": "Indicates how the output will be organized."
       }
     },
-    "partitionKeys": [],
     "maxRetries": {
       "type": "int",
       "defaultValue": 1,
@@ -173,8 +173,8 @@
     "jobResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/jobs', parameters('workspaceName'), parameters('jobName'))]",
     "environmentResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/environments/versions', parameters('workspaceName'), parameters('environmentName'), parameters('environmentVersion'))]",
     "codeVersionResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/codes/versions', parameters('workspaceName'), parameters('codeAssetName'), parameters('codeAssetVersion'))]",
-    "modelAssetResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/models/versions', parameters('workspaceName'), parameters('modelName'), parameters('modelVersion'))]",
-    "endpointResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/onlineEndpoints', parameters('workspaceName'), parameters('onlineEndpointName'))]"
+    "modelAssetResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/models/versions', parameters('workspaceName'), parameters('modelAssetName'), parameters('modelAssetVersion'))]",
+    "endpointResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/batchEndpoints', parameters('workspaceName'), parameters('batchEndpointName'))]"
   },
   "resources": [
     {
@@ -183,14 +183,10 @@
       "apiVersion": "2021-03-01-preview",
       "tags": {},
       "location": "[parameters('location')]",
-      "dependsOn": [
-        "[variables('endpointResourceId')]"
-      ],
       "identity": {
         "type": "[parameters('identityType')]",
         "userAssignedIdentities": {}
       },
-      //"kind": "string",
       "properties": {
         "codeConfiguration": {
           "codeId": "[variables('codeVersionResourceId')]",
@@ -221,7 +217,6 @@
           "appendRowFileName": "[parameters('appendRowFileName')]",
           "outputAction": "[parameters('outputAction')]"
         },
-        //"partitionKeys": "[parameters('partitionKeys')]",
         "properties": {},
         "retrySettings": {
           "maxRetries": "[parameters('maxRetries')]",

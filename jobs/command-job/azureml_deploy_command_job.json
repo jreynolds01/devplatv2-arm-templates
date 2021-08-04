@@ -21,7 +21,8 @@
       "type": "String",
       "metadata": {
         "description": "The command to execute on startup of the job. eg. 'python train.py'"
-      },
+      }
+    },
     "codeAssetName": {
       "type": "String"
     },
@@ -63,16 +64,24 @@
       "defaultValue": "1",
       "type": "String"
     },
-      "experimentName": {
-        "defaultValue": "testExperimentName",
-        "type": "String",
-        "metadata": {
-          "description": "The name of the experiment the job belongs to. If not set, the job is placed in the 'Default' experiment."
-        }
-     },
+    "experimentName": {
+      "defaultValue": "testExperimentName",
+      "type": "String",
+      "metadata": {
+        "description": "The name of the experiment the job belongs to. If not set, the job is placed in the 'Default' experiment."
+      }
+    },
     "identityType": {
       "defaultValue": "AMLToken",
       "type": "String"
+    },
+    "priority": {
+      "type": "int",
+      "defaultValue": 1
+    },
+    "timeout": {
+      "type": "string",
+      "defaultValue":  ""
     }
   },
   "variables": {
@@ -101,7 +110,6 @@
           "properties": {},
           "target": "[variables('computeResourceId')]"
         },
-        "distribution": {},
         "environmentId": "[variables('environmentResourceId')]",
         "environmentVariables": {},
         "experimentName": "[parameters('experimentName')]",
@@ -111,8 +119,8 @@
           "pathOnCompute": "[parameters('dataAssetPathOnCompute')]"
         },
         "outputDataBindings": {},
-        "priority": "int",
-        "timeout": "string"
+        "priority": "[parameters('priority')]",
+        "timeout": "[parameters('timeout')]"
       }
     }
   ]

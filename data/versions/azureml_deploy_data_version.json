@@ -8,33 +8,33 @@
     "datastoreName": {
       "type": "String"
     },
-    "dataContainerName": {
-      "defaultValue": "testDataContainerName",
+    "dataAssetName": {
+      "defaultValue": "testDataAssetName",
       "type": "String"
     },
     "dataVersion": {
       "defaultValue": "1",
       "type": "String"
     },
-    "dataContainerDescription": {
-      "defaultValue": "This is a test description for a data container created from an ARM template",
+    "dataAssetDescription": {
+      "defaultValue": "This is a test description for a data asset created from an ARM template",
       "type": "String"
     },
     "datasetType": {
-      "type": "string",
+      "defaultValue": "",
       "allowedValues": [
         "Simple",
         "Dataflow",
         ""
       ],
-      "defaultValue": "",
+      "type": "String",
       "metadata": {
         "description": "The format of the dataset"
       }
     },
     "isAnonymous": {
-      "type": "bool",
       "defaultValue": true,
+      "type": "Bool",
       "metadata": {
         "description": "If the name version are system generated (anonymous registration)."
       }
@@ -51,13 +51,13 @@
   },
   "resources": [
     {
-      "type": "Microsoft.MachineLearningServices/workspaces/data",
+      "type": "Microsoft.MachineLearningServices/workspaces/data/versions",
       "apiVersion": "2021-03-01-preview",
-      "name": "[concat(parameters('workspaceName'), '/', parameters('dataContainerName'), '/', parameters('dataVersion'))]",
+      "name": "[concat(parameters('workspaceName'), '/', parameters('dataAssetName'), '/', parameters('dataVersion'))]",
       "properties": {
         "datasetType": "[parameters('datasetType')]",
         "datastoreId": "[variables('datastoreResourceId')]",
-        "description": "[parameters('dataContainerDescription')]",
+        "description": "[parameters('dataAssetDescription')]",
         "isAnonymous": "[parameters('isAnonymous')]",
         "path": "[parameters('pathInDatastore')]",
         "properties": {},
