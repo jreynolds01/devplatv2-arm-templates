@@ -174,7 +174,8 @@
     "environmentResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/environments/versions', parameters('workspaceName'), parameters('environmentName'), parameters('environmentVersion'))]",
     "codeVersionResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/codes/versions', parameters('workspaceName'), parameters('codeAssetName'), parameters('codeAssetVersion'))]",
     "modelAssetResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/models/versions', parameters('workspaceName'), parameters('modelAssetName'), parameters('modelAssetVersion'))]",
-    "endpointResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/batchEndpoints', parameters('workspaceName'), parameters('batchEndpointName'))]"
+    "endpointResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/batchEndpoints', parameters('workspaceName'), parameters('batchEndpointName'))]",
+    "computeResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/batchEndpoints', parameters('workspaceName'), parameters('computeName'))]"
   },
   "resources": [
     {
