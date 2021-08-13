@@ -73,7 +73,7 @@
       "properties": {
         "condaFile": "[parameters('condaFile')]",
         "description": "[parameters('environmentDescription')]",
-        "docker": {
+        "dockerImage": {
           "context": "[parameters('dockerContext')]",
           "dockerfile": "[parameters('dockerfile')]",
           "dockerImageUri": "[parameters('dockerImageUri')]",

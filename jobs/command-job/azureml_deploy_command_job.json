@@ -24,6 +24,7 @@
       }
     },
     "codeAssetName": {
+      "defaultValue": "",
       "type": "String"
     },
     "codeAssetVersion": {
@@ -31,6 +32,7 @@
       "type": "String"
     },
     "dataAssetName": {
+      "defaultValue": "",
       "type": "String"
     },
     "dataAssetVersion": {
@@ -38,6 +40,7 @@
       "type": "String"
     },
     "computeName": {
+      "defaultValue": "",
       "type": "String"
     },
     "computeInstanceCount": {
@@ -45,12 +48,14 @@
       "type": "Int"
     },
     "computeInstanceType": {
+      "defaultValue": "",
       "type": "String"
     },
     "computeIsLocal": {
       "type": "Bool"
     },
     "computeLocation": {
+      "defaultValue": "",
       "type": "String"
     },
     "dataAssetPathOnCompute": {
@@ -58,6 +63,7 @@
       "type": "String"
     },
     "environmentName": {
+      "defaultValue": "",
       "type": "String"
     },
     "environmentVersion": {
@@ -76,12 +82,12 @@
       "type": "String"
     },
     "priority": {
-      "type": "int",
-      "defaultValue": 1
+      "defaultValue": 1,
+      "type": "Int"
     },
     "timeout": {
-      "type": "string",
-      "defaultValue":  ""
+      "defaultValue": "",
+      "type": "String"
     }
   },
   "variables": {
