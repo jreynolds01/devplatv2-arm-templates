@@ -77,10 +77,12 @@
         "description": "The name of the experiment the job belongs to. If not set, the job is placed in the 'Default' experiment."
       }
     },
-    "identityType": {
-      "defaultValue": "AMLToken",
-      "type": "String"
-    },
+    "identity": {
+      "defaultValue": {
+        "identityType": "AMLToken"
+      },
+        "type": "object"
+     },
     "priority": {
       "defaultValue": 1,
       "type": "Int"
@@ -119,11 +121,8 @@
         "environmentId": "[variables('environmentResourceId')]",
         "environmentVariables": {},
         "experimentName": "[parameters('experimentName')]",
-        "identityType": "[parameters('identityType')]",
-        "inputDataBindings": {
-          "dataId": "[variables('dataVersionResourceId')]",
-          "pathOnCompute": "[parameters('dataAssetPathOnCompute')]"
-        },
+        "identity": "[parameters('identity')]",
+        "inputDataBindings": {},
         "outputDataBindings": {},
         "priority": "[parameters('priority')]",
         "timeout": "[parameters('timeout')]"
