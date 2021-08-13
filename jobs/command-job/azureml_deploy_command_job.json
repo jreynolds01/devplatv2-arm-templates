@@ -31,36 +31,13 @@
       "defaultValue": "1",
       "type": "String"
     },
-    "dataAssetName": {
-      "defaultValue": "",
-      "type": "String"
-    },
-    "dataAssetVersion": {
-      "defaultValue": "1",
-      "type": "String"
-    },
     "computeName": {
       "defaultValue": "",
       "type": "String"
     },
     "computeInstanceCount": {
-      "defaultValue": 3,
+      "defaultValue": 1,
       "type": "Int"
-    },
-    "computeInstanceType": {
-      "defaultValue": "",
-      "type": "String"
-    },
-    "computeIsLocal": {
-      "type": "Bool"
-    },
-    "computeLocation": {
-      "defaultValue": "",
-      "type": "String"
-    },
-    "dataAssetPathOnCompute": {
-      "defaultValue": "testData",
-      "type": "String"
     },
     "environmentName": {
       "defaultValue": "",
@@ -77,12 +54,6 @@
         "description": "The name of the experiment the job belongs to. If not set, the job is placed in the 'Default' experiment."
       }
     },
-    "identity": {
-      "defaultValue": {
-        "identityType": "AMLToken"
-      },
-        "type": "object"
-     },
     "priority": {
       "defaultValue": 1,
       "type": "Int"
@@ -95,8 +66,7 @@
   "variables": {
     "codeVersionResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/codes/versions', parameters('workspaceName'), parameters('codeAssetName'), parameters('codeAssetVersion'))]",
     "environmentResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/environments/versions', parameters('workspaceName'), parameters('environmentName'), parameters('environmentVersion'))]",
-    "computeResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/computes', parameters('workspaceName'), parameters('computeName'))]",
-    "dataVersionResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/data/versions', parameters('workspaceName'), parameters('dataAssetName'), parameters('dataAssetVersion'))]"
+    "computeResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/computes', parameters('workspaceName'), parameters('computeName'))]"
   },
   "resources": [
     {
@@ -112,17 +82,11 @@
         "command": "[parameters('command')]",
         "compute": {
           "instanceCount": "[parameters('computeInstanceCount')]",
-          "instanceType": "[parameters('computeInstanceType')]",
-          "isLocal": "[parameters('computeIsLocal')]",
-          "location": "[parameters('computeLocation')]",
-          "properties": {},
           "target": "[variables('computeResourceId')]"
         },
         "environmentId": "[variables('environmentResourceId')]",
         "environmentVariables": {},
         "experimentName": "[parameters('experimentName')]",
-        "identity": "[parameters('identity')]",
-        "inputDataBindings": {},
         "outputDataBindings": {},
         "priority": "[parameters('priority')]",
         "timeout": "[parameters('timeout')]"
