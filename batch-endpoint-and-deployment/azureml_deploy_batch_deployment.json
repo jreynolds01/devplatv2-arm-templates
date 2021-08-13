@@ -6,44 +6,44 @@
       "type": "String"
     },
     "batchDeploymentName": {
-      "type": "String",
-      "defaultValue": "testbatchdeployment"
+      "defaultValue": "testbatchdeployment",
+      "type": "String"
     },
     "batchDeploymentDescription": {
-      "type": "String",
-      "defaultValue": "This is a batch deployment created by an ARM template"
+      "defaultValue": "This is a batch deployment created by an ARM template",
+      "type": "String"
     },
     "datastoreName": {
-      "type": "String",
-      "defaultValue": ""
+      "defaultValue": "",
+      "type": "String"
     },
     "jobName": {
-      "type": "String",
-      "defaultValue": ""
+      "defaultValue": "",
+      "type": "String"
     },
     "environmentName": {
-      "type": "String",
-      "defaultValue": ""
+      "defaultValue": "",
+      "type": "String"
     },
     "environmentVersion": {
-      "type": "String",
-      "defaultValue": "1"
+      "defaultValue": "1",
+      "type": "String"
     },
     "codeAssetName": {
-      "type": "String",
-      "defaultValue": ""
+      "defaultValue": "",
+      "type": "String"
     },
     "codeAssetVersion": {
-      "type": "String",
-      "defaultValue": "1"
+      "defaultValue": "1",
+      "type": "String"
     },
     "modelAssetName": {
-      "type": "String",
-      "defaultValue": ""
+      "defaultValue": "",
+      "type": "String"
     },
     "modelAssetVersion": {
-      "type": "String",
-      "defaultValue": "1"
+      "defaultValue": "1",
+      "type": "String"
     },
     "batchEndpointName": {
       "type": "String"
@@ -51,118 +51,66 @@
     "location": {
       "type": "String"
     },
-    "identityType": {
-      "defaultValue": "None",
-      "allowedValues": [
-        "SystemAssigned",
-        "UserAssigned",
-        "None"
-      ],
+    "scoringScript": {
+      "defaultValue": "score.py",
       "type": "String"
     },
-    "scoringScript": {
-      "type": "String",
-      "defaultValue": "score.py"
-    },
     "computeName": {
+      "defaultValue": "",
       "type": "String"
     },
     "computeInstanceCount": {
-      "type": "Int",
       "defaultValue": 1,
-      "metadata": {
-        "description": ""
-      }
-    },
-    "computeInstanceType": {
-      "type": "String",
-      "metadata": {
-        "description": "SKU type to run on."
-      }
-    },
-    "computeIsLocal": {
-      "type": "bool",
-      "metadata": {
-        "description": "Set to true for jobs running on local compute."
-      }
-    },
-    "computeLocation": {
-      "type": "String",
-      "metadata": {
-        "description": "Location for virtual cluster run."
-      }
+      "type": "Int"
     },
     "errorThreshold": {
-      "type": "int",
+      "type": "Int",
       "metadata": {
         "description": "If the error count for the entire input goes above this value, the batch inference will be aborted. Range is [-1, int.MaxValue]. For FileDataset, this value is the count of file failures. For TabularDataset, this value is the count of record failures. If set to -1 (the lower bound), all failures during batch inference will be ignored."
       }
     },
     "loggingLevel": {
-      "type": "string",
       "allowedValues": [
         "Info",
         "Warning",
         "Debug"
       ],
+      "type": "String",
       "metadata": {
         "description": "Logging level for batch inference operation"
       }
     },
     "miniBatchSize": {
-      "type": "int",
       "defaultValue": 1,
+      "type": "Int",
       "metadata": {
         "description": "Size of the mini-batch passed to each batch invocation. For FileDataset, this is the number of files per mini-batch. For TabularDataset, this is the size of the records in bytes, per mini-batch."
       }
     },
-    "modelReferenceType": {
-      "type": "String",
-      "allowedValues": [
-        "DataPath",
-        "Id",
-        "OutputPath"
-      ],
-      "metadata": {
-        "description": "Specifies the type of asset reference."
-      }
-    },
     "modelPath": {
-      "type": "String",
       "defaultValue": "",
+      "type": "String",
       "metadata": {
         "description": "The path of the file/directory in the datastore."
       }
     },
     "appendRowFileName": {
-      "type": "String",
       "defaultValue": "",
+      "type": "String",
       "metadata": {
         "description": "Customized output file name for append_row output action."
       }
     },
-    "outputAction": {
-      "type": "String",
-      "defaultValue": "",
-      "allowedValues": [
-        "SummaryOnly",
-        "AppendRow",
-        ""
-      ],
-      "metadata": {
-        "description": "Indicates how the output will be organized."
-      }
-    },
     "maxRetries": {
-      "type": "int",
       "defaultValue": 1,
+      "type": "Int",
       "metadata": {
         "description": "Maximum retry count for a mini-batch."
       }
     },
     "timeout": {
+      "defaultValue": "PT1H",
       "type": "String",
-      "defaultValue": "",
       "metadata": {
         "description": "Invocation timeout for a mini-batch, in ISO 8601 format."
       }
@@ -175,19 +123,15 @@
     "codeVersionResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/codes/versions', parameters('workspaceName'), parameters('codeAssetName'), parameters('codeAssetVersion'))]",
     "modelAssetResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/models/versions', parameters('workspaceName'), parameters('modelAssetName'), parameters('modelAssetVersion'))]",
     "endpointResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/batchEndpoints', parameters('workspaceName'), parameters('batchEndpointName'))]",
-    "computeResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/batchEndpoints', parameters('workspaceName'), parameters('computeName'))]"
+    "computeResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/computes', parameters('workspaceName'), parameters('computeName'))]"
   },
   "resources": [
     {
-      "name": "[concat(parameters('workspaceName'), '/', parameters('batchEndpointName'), '/', parameters('batchDeploymentName'))]",
       "type": "Microsoft.MachineLearningServices/workspaces/batchEndpoints/deployments",
       "apiVersion": "2021-03-01-preview",
-      "tags": {},
+      "name": "[concat(parameters('workspaceName'), '/', parameters('batchEndpointName'), '/', parameters('batchDeploymentName'))]",
       "location": "[parameters('location')]",
-      "identity": {
-        "type": "[parameters('identityType')]",
-        "userAssignedIdentities": {}
-      },
+      "tags": {},
       "properties": {
         "codeConfiguration": {
           "codeId": "[variables('codeVersionResourceId')]",
@@ -195,10 +139,6 @@
         },
         "compute": {
           "instanceCount": "[parameters('computeInstanceCount')]",
-          "instanceType": "[parameters('computeInstanceType')]",
-          "isLocal": "[parameters('computeIsLocal')]",
-          "location": "[parameters('computeLocation')]",
-          "properties": {},
           "target": "[variables('computeResourceId')]"
         },
         "description": "[parameters('batchDeploymentDescription')]",
@@ -208,15 +148,8 @@
         "loggingLevel": "[parameters('loggingLevel')]",
         "miniBatchSize": "[parameters('miniBatchSize')]",
         "model": {
-          "referenceType": "[parameters('modelReferenceType')]",
-          "datastoreId": "[variables('datastoreResourceId')]",
-          "path": "[parameters('modelPath')]",
-          "assetId": "[variables('modelAssetResourceId')]",
-          "jobId": "[variables('jobResourceId')]"
-        },
-        "outputConfiguration": {
-          "appendRowFileName": "[parameters('appendRowFileName')]",
-          "outputAction": "[parameters('outputAction')]"
+          "referenceType": "Id",
+          "assetId": "[variables('modelAssetResourceId')]"
         },
         "properties": {},
         "retrySettings": {

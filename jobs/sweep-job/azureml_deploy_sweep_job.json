@@ -33,32 +33,12 @@
       "defaultValue": "1",
       "type": "String"
     },
-    "dataAssetName": {
-      "type": "String"
-    },
-    "dataAssetVersion": {
-      "defaultValue": "1",
-      "type": "String"
-    },
     "computeName": {
       "type": "String"
     },
     "computeInstanceCount": {
-      "type": "Int",
-      "defaultValue": 1
-    },
-    "computeInstanceType": {
-      "type": "String"
-    },
-    "computeIsLocal": {
-      "type": "bool"
-    },
-    "computeLocation": {
-      "type": "String"
-    },
-    "dataAssetPathOnCompute": {
-      "defaultValue": "dataAsset/path/in/datastore",
-      "type": "String"
+      "defaultValue": 1,
+      "type": "Int"
     },
     "environmentName": {
       "type": "String"
@@ -71,51 +51,47 @@
       "defaultValue": "testExperimentName",
       "type": "String"
     },
-    "identityType": {
-      "defaultValue": "AMLToken",
-      "type": "object"
-    },
     "priority": {
-      "type": "int",
-      "defaultValue": 1
+      "defaultValue": 1,
+      "type": "Int"
     },
     "timeout": {
-      "type": "string",
-      "defaultValue": "PT45M"
+      "defaultValue": "PT45M",
+      "type": "String"
     },
     "algorithm": {
-      "type": "string",
       "allowedValues": [
         "Grid",
         "Random",
         "Bayesian"
-      ]
+      ],
+      "type": "String"
     },
     "maxConcurrentTrials": {
-      "type": "int",
-      "defaultValue": 4
+      "defaultValue": 4,
+      "type": "Int"
     },
     "maxTotalTrials": {
-      "type": "int",
-      "defaultValue": 12
+      "defaultValue": 12,
+      "type": "Int"
     },
     "goal": {
-      "type": "string",
       "defaultValue": "Maximize",
       "allowedValues": [
         "Maximize",
         "Minimize"
       ],
+      "type": "String",
       "metadata": {
         "description": "Defines supported metric goals for hyperparameter tuning"
       }
     },
     "primaryMetric": {
-      "type": "string",
-      "defaultValue": "Accuracy"
+      "defaultValue": "Accuracy",
+      "type": "String"
     },
     "searchSpace": {
-      "type": "String",
+      "type": "Object",
       "metadata": {
         "description": "A dictionary containing each parameter and its distribution. The dictionary key is the name of the parameter"
       }
@@ -124,8 +100,7 @@
   "variables": {
     "codeVersionResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/codes/versions', parameters('workspaceName'), parameters('codeAssetName'), parameters('codeAssetVersion'))]",
     "environmentResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/environments/versions', parameters('workspaceName'), parameters('environmentName'), parameters('environmentVersion'))]",
-    "computeResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/computes', parameters('workspaceName'), parameters('computeName'))]",
-    "dataVersionResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/data/versions', parameters('workspaceName'), parameters('dataAssetName'), parameters('dataAssetVersion'))]"
+    "computeResourceId": "[resourceId('Microsoft.MachineLearningServices/workspaces/computes', parameters('workspaceName'), parameters('computeName'))]"
   },
   "resources": [
     {
@@ -139,18 +114,12 @@
         "jobType": "Sweep",
         "compute": {
           "instanceCount": "[parameters('computeInstanceCount')]",
-          "instanceType": "[parameters('computeInstanceType')]",
-          "isLocal": "[parameters('computeIsLocal')]",
-          "location": "[parameters('computeLocation')]",
-          "properties": {},
           "target": "[variables('computeResourceId')]"
         },
         "priority": "[parameters('priority')]",
         "timeout": "[parameters('timeout')]",
         "algorithm": "[parameters('algorithm')]",
-        // "earlyTermination": {},
         "experimentName": "[parameters('experimentName')]",
-        "identity": "[parameters('identityType')]",
         "maxConcurrentTrials": "[parameters('maxConcurrentTrials')]",
         "maxTotalTrials": "[parameters('maxTotalTrials')]",
         "objective": {
@@ -161,14 +130,8 @@
         "trial": {
           "codeId": "[variables('codeVersionResourceId')]",
           "command": "[parameters('command')]",
-          // "distribution": {},
           "environmentId": "[variables('environmentResourceId')]",
           "environmentVariables": {},
-          "inputDataBindings": {
-            "dataId": "[variables('dataVersionResourceId')]",
-            "pathOnCompute": "[parameters('dataAssetPathOnCompute')]"
-          },
-          "outputDataBindings": {},
           "timeout": "[parameters('timeout')]"
         }
       }
