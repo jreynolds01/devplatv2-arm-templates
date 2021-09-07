@@ -76,7 +76,6 @@
         "docker": {
           "context": "[parameters('dockerContext')]",
           "dockerfile": "[parameters('dockerfile')]",
-          "dockerImageUri": "[parameters('dockerImageUri')]",
           "dockerSpecificationType": "[parameters('dockerSpecificationType')]",
           "platform": {
             "operatingSystemType": "[parameters('dockerOperatingSystemType')]"

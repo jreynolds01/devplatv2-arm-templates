@@ -1,0 +1,26 @@
+# NOTES
+
+examining why there may be a difference between yaml deployment and ARM deployment. Looks like yml may be translated to 
+to json -> str before getting submitted
+
+```
+less /opt/az/extensions/ml/azext_mlv2/manual/vendored_curated_sdk/azure/ml/entities/_assets/environment.py
+# look for yaml.dump(self.conda_file)
+# from azext_mlv2.manual.vendored_curated_sdk.azure.ml._utils.utils import load_yaml, 
+# from azext_mlv2.manual.vendored_curated_sdk.azure.ml._restclient.v2021_03_01_preview.models
+```
+
+
+```python3
+import yaml
+with open('test-environment.yml','r') as f:
+    data = yaml.safe_load(f)
+
+yaml.dump(data)
+```
+
+`yaml.dump` just prints out basically the yaml format from the dict (some missing whitespace)
+
+
+# preprocessing
+BEFORE checking in - removed sub ids, RG names, and WS names, mostly in ARM outputs....
