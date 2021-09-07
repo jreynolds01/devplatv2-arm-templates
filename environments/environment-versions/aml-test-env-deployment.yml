@@ -1,0 +1,8 @@
+$schema: https://azuremlschemas.azureedge.net/latest/environment.schema.json
+name: testyml
+version: 1
+path: .
+conda_file: file:./test-environment.yml
+docker:
+  build: 
+    dockerfile: file:./Dockerfile
