@@ -1,5 +1,5 @@
 RG=FILLME
-WX=FILLME
+WS=FILLME
 
 az ml environment create -f ./aml-test-env-deployment.yml -g ${RG} -w ${WS}
 # az deployment group create \
